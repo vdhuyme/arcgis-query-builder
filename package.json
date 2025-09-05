@@ -1,0 +1,44 @@
+{
+  "name": "arcgis-query-builder",
+  "version": "1.0.0",
+  "description": "Lightweight query builder for ArcGIS FeatureLayers",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "prettier": "prettier --check .",
+    "prettier:fix": "prettier --write .",
+    "prepublish": "npm run build",
+    "test": "jest",
+    "build": "tsc"
+  },
+  "keywords": [
+    "arcgis",
+    "query",
+    "builder",
+    "gis"
+  ],
+  "author": "Vo Duc Huy",
+  "maintainers": [
+    "vdhuyme"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@arcgis/core": "^4.30.0",
+    "@tsconfig/recommended": "^1.0.10",
+    "@types/jest": "^29.5.14",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.4.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.0"
+  },
+  "peerDependencies": {
+    "@arcgis/core": "^4.30.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vdhuyme/arcgis-query-builder"
+  }
+}
