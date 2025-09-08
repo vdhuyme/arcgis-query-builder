@@ -1,44 +1,37 @@
 export type ComparisonOperator =
-  | "="
-  | "!="
-  | "<>"
-  | "<"
-  | "<="
-  | ">"
-  | ">="
-  | "LIKE"
-  | "NOT LIKE"
-  | "IN"
-  | "NOT IN"
-  | "IS"
-  | "IS NOT";
+  | '='
+  | '!='
+  | '<>'
+  | '<'
+  | '<='
+  | '>'
+  | '>='
+  | 'LIKE'
+  | 'NOT LIKE'
+  | 'IN'
+  | 'NOT IN'
+  | 'IS'
+  | 'IS NOT'
 
-export type LogicalOperator = "AND" | "OR";
+export type LogicalOperator = 'AND' | 'OR'
 
-export type SortOrder = "ASC" | "DESC";
+export type SortOrder = 'ASC' | 'DESC'
 
-export type StatisticType =
-  | "sum"
-  | "count"
-  | "avg"
-  | "min"
-  | "max"
-  | "stddev"
-  | "var";
+export type StatisticType = 'sum' | 'count' | 'avg' | 'min' | 'max' | 'stddev' | 'var'
 
 export interface QueryStatisticDefinitionInput {
-  onStatisticField: string;
-  outStatisticFieldName: string;
-  statisticType: StatisticType;
+  onStatisticField: string
+  outStatisticFieldName: string
+  statisticType: StatisticType
 }
 
 export type SpatialRelationship =
-  | "intersects"
-  | "contains"
-  | "crosses"
-  | "envelope-intersects"
-  | "index-intersects"
-  | "overlaps"
-  | "touches"
-  | "within"
-  | "relation";
+  | 'intersects'
+  | 'contains'
+  | 'crosses'
+  | 'envelope-intersects'
+  | 'index-intersects'
+  | 'overlaps'
+  | 'touches'
+  | 'within'
+  | 'relation'

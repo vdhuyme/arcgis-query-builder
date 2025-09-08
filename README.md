@@ -25,20 +25,20 @@ npm install arcgis-query-builder
 ## Quick Start
 
 ```typescript
-import { QueryBuilder } from "arcgis-query-builder";
-import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import { QueryBuilder } from 'arcgis-query-builder'
+import FeatureLayer from '@arcgis/core/layers/FeatureLayer'
 
 // Create a query builder from a FeatureLayer
-const layer = new FeatureLayer({ url: "your-feature-layer-url" });
-const query = QueryBuilder.from(layer);
+const layer = new FeatureLayer({ url: 'your-feature-layer-url' })
+const query = QueryBuilder.from(layer)
 
 // Build and execute a query
 const results = await query
-  .select(["NAME", "POPULATION"])
-  .where("POPULATION", ">", 1000000)
-  .orderBy("POPULATION", "DESC")
+  .select(['NAME', 'POPULATION'])
+  .where('POPULATION', '>', 1000000)
+  .orderBy('POPULATION', 'DESC')
   .limit(10)
-  .exec();
+  .exec()
 ```
 
 ## Basic Usage
@@ -47,70 +47,70 @@ const results = await query
 
 ```typescript
 // Basic where clause
-query.where("field", "=", "value");
+query.where('field', '=', 'value')
 
 // Multiple conditions
-query.where("age", ">=", 18).where("status", "=", "active");
+query.where('age', '>=', 18).where('status', '=', 'active')
 
 // OR conditions
-query.where("type", "=", "A").orWhere("type", "=", "B");
+query.where('type', '=', 'A').orWhere('type', '=', 'B')
 ```
 
 ### Advanced Queries
 
 ```typescript
 // Complex where clauses
-query.where((qb) => {
-  qb.where("status", "=", "active").where("age", ">=", 18);
-});
+query.where(qb => {
+  qb.where('status', '=', 'active').where('age', '>=', 18)
+})
 
 // Between values
-query.whereBetween("price", 10, 100);
+query.whereBetween('price', 10, 100)
 
 // IN clause
-query.whereIn("category", ["A", "B", "C"]);
+query.whereIn('category', ['A', 'B', 'C'])
 
 // NULL checks
-query.whereNull("optional_field");
-query.whereNotNull("required_field");
+query.whereNull('optional_field')
+query.whereNotNull('required_field')
 ```
 
 ### Date Queries
 
 ```typescript
 // Date specific queries
-query.whereDate("created_at", "=", "2025-01-01");
-query.whereToday("timestamp");
-query.whereThisWeek("date_field");
-query.whereThisMonth("date_field");
-query.whereLastDays("date_field", 7);
+query.whereDate('created_at', '=', '2025-01-01')
+query.whereToday('timestamp')
+query.whereThisWeek('date_field')
+query.whereThisMonth('date_field')
+query.whereLastDays('date_field', 7)
 
 // Business hours
-query.whereBusinessHours("time_field");
-query.whereWeekdays("date_field");
+query.whereBusinessHours('time_field')
+query.whereWeekdays('date_field')
 ```
 
 ### Aggregations and Statistics
 
 ```typescript
 // Group by with statistics
-query.groupBy("category").stats([
-  { field: "price", type: "avg", alias: "average_price" },
-  { field: "quantity", type: "sum", alias: "total_quantity" },
-]);
+query.groupBy('category').stats([
+  { field: 'price', type: 'avg', alias: 'average_price' },
+  { field: 'quantity', type: 'sum', alias: 'total_quantity' }
+])
 
 // Single statistic
-query.addStat("population", "sum", "total_population");
+query.addStat('population', 'sum', 'total_population')
 ```
 
 ### Pagination
 
 ```typescript
 // Using limit and offset
-query.limit(10).offset(20);
+query.limit(10).offset(20)
 
 // Or using paginate
-query.paginate(2, 10); // page 2, 10 items per page
+query.paginate(2, 10) // page 2, 10 items per page
 ```
 
 ## Contributing
