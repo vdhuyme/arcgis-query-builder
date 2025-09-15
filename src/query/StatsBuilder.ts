@@ -1,5 +1,12 @@
 import { QueryStatisticDefinitionInput, StatisticType } from '../types'
 
+// ArcGIS StatisticDefinition interface based on documentation
+export interface StatisticDefinition {
+  onStatisticField: string
+  outStatisticFieldName: string
+  statisticType: StatisticType
+}
+
 export class StatsBuilder {
   private stats: QueryStatisticDefinitionInput[] = []
 
@@ -23,8 +30,8 @@ export class StatsBuilder {
     return this
   }
 
-  build(): any[] {
-    return this.stats as any[]
+  build(): StatisticDefinition[] {
+    return this.stats as StatisticDefinition[]
   }
 
   private validate(s: QueryStatisticDefinitionInput) {

@@ -41,7 +41,11 @@ export class WhereBuilder {
     return this
   }
 
-  where(column: string, operator: ComparisonOperator, value: any) {
+  where(
+    column: string,
+    operator: ComparisonOperator,
+    value: string | number | Date | boolean | null | undefined
+  ) {
     this.pushRaw(this._buildCondition(column, operator, value))
     return this
   }
@@ -113,7 +117,11 @@ export class WhereBuilder {
     )
   }
 
-  private _buildCondition(column: string, operator: ComparisonOperator, value: any) {
+  private _buildCondition(
+    column: string,
+    operator: ComparisonOperator,
+    value: string | number | Date | boolean | null | undefined
+  ) {
     if (value === null || value === undefined) {
       if (operator === '=' || (operator as string) === '==') return `${column} IS NULL`
       if (operator === '!=' || operator === '<>') return `${column} IS NOT NULL`

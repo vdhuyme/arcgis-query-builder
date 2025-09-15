@@ -1,110 +1,161 @@
 import Query from '@arcgis/core/rest/support/Query.js'
+import {
+  CacheHint,
+  DatumTransformation,
+  Distance,
+  GdbVersion,
+  GeometryPrecision,
+  HavingExpression,
+  HistoricMoment,
+  MaxAllowableOffset,
+  MaxRecordCountFactor,
+  MultipatchOption,
+  ObjectIds,
+  ParameterValues,
+  PixelSizeType,
+  QuantizationParametersType,
+  RangeValues,
+  RelationParameter,
+  ReturnCentroid,
+  ReturnExceededLimitFeatures,
+  ReturnM,
+  ReturnQueryGeometry,
+  ReturnZ,
+  SqlFormat,
+  TextSearch,
+  Units
+} from '../types'
 
 export class QueryProps {
   constructor(private q: Query) {}
 
-  cacheHint(flag: boolean) {
-    this.q.cacheHint = flag as any
+  cacheHint(flag: CacheHint) {
+    this.q.cacheHint = flag
     return this
   }
-  datumTransformation(t: number | any) {
-    this.q.datumTransformation = t as any
+
+  datumTransformation(t: DatumTransformation) {
+    this.q.datumTransformation = t
     return this
   }
-  distance(value: number) {
-    this.q.distance = value as any
+
+  distance(value: Distance) {
+    this.q.distance = value
     return this
   }
-  gdbVersion(version: string) {
-    this.q.gdbVersion = version as any
+
+  gdbVersion(version: GdbVersion) {
+    this.q.gdbVersion = version
     return this
   }
-  geometryPrecision(precision: number) {
-    this.q.geometryPrecision = precision as any
+
+  geometryPrecision(precision: GeometryPrecision) {
+    this.q.geometryPrecision = precision
     return this
   }
-  having(expr: string) {
-    this.q.having = expr as any
+
+  having(expr: HavingExpression) {
+    this.q.having = expr
     return this
   }
-  historicMoment(date: Date) {
-    this.q.historicMoment = date as any
+
+  historicMoment(date: HistoricMoment) {
+    this.q.historicMoment = date
     return this
   }
-  maxAllowableOffset(offset: number) {
-    this.q.maxAllowableOffset = offset as any
+
+  maxAllowableOffset(offset: MaxAllowableOffset) {
+    this.q.maxAllowableOffset = offset
     return this
   }
-  maxRecordCountFactor(factor: number) {
-    ;(this.q as any).maxRecordCountFactor = factor
+
+  maxRecordCountFactor(factor: MaxRecordCountFactor) {
+    this.q.maxRecordCountFactor = factor
     return this
   }
-  multipatchOption(option: string) {
-    ;(this.q as any).multipatchOption = option
+
+  multipatchOption(option: MultipatchOption) {
+    this.q.multipatchOption = option
     return this
   }
-  objectIds(ids: Array<number | string>) {
-    this.q.objectIds = ids as any
+
+  objectIds(ids: ObjectIds) {
+    this.q.objectIds = ids
     return this
   }
+
   outSpatialReference(sr: __esri.SpatialReference) {
-    this.q.outSpatialReference = sr as any
+    this.q.outSpatialReference = sr
     return this
   }
-  parameterValues(values: Record<string, any>) {
-    ;(this.q as any).parameterValues = values
+
+  parameterValues(values: ParameterValues) {
+    this.q.parameterValues = values
     return this
   }
-  pixelSize(p: __esri.Point) {
-    ;(this.q as any).pixelSize = p
+
+  pixelSize(p: PixelSizeType) {
+    this.q.pixelSize = p
     return this
   }
-  quantizationParameters(q: any) {
-    ;(this.q as any).quantizationParameters = q
+
+  quantizationParameters(q: QuantizationParametersType) {
+    this.q.quantizationParameters = q
     return this
   }
-  rangeValues(values: any[]) {
-    ;(this.q as any).rangeValues = values
+
+  rangeValues(values: RangeValues) {
+    this.q.rangeValues = values
     return this
   }
-  relationParameter(param: string) {
-    this.q.relationParameter = param as any
+
+  relationParameter(param: RelationParameter) {
+    this.q.relationParameter = param
     return this
   }
-  returnCentroid(flag: boolean) {
-    this.q.returnCentroid = flag as any
+
+  returnCentroid(flag: ReturnCentroid) {
+    this.q.returnCentroid = flag
     return this
   }
-  returnExceededLimitFeatures(flag: boolean) {
-    this.q.returnExceededLimitFeatures = flag as any
+
+  returnExceededLimitFeatures(flag: ReturnExceededLimitFeatures) {
+    this.q.returnExceededLimitFeatures = flag
     return this
   }
-  returnM(flag: boolean) {
-    this.q.returnM = flag as any
+
+  returnM(flag: ReturnM) {
+    this.q.returnM = flag
     return this
   }
-  returnQueryGeometry(flag: boolean) {
-    this.q.returnQueryGeometry = flag as any
+
+  returnQueryGeometry(flag: ReturnQueryGeometry) {
+    this.q.returnQueryGeometry = flag
     return this
   }
-  returnZ(flag: boolean) {
-    this.q.returnZ = flag as any
+
+  returnZ(flag: ReturnZ) {
+    this.q.returnZ = flag
     return this
   }
-  sqlFormat(fmt: 'standard' | 'native') {
-    ;(this.q as any).sqlFormat = fmt
+
+  sqlFormat(fmt: SqlFormat) {
+    this.q.sqlFormat = fmt
     return this
   }
-  textLike(text: string) {
-    this.q.text = text as any
+
+  textLike(text: TextSearch) {
+    this.q.text = text
     return this
   }
+
   timeExtent(extent: __esri.TimeExtent) {
-    this.q.timeExtent = extent as any
+    this.q.timeExtent = extent
     return this
   }
-  units(unit: string) {
-    ;(this.q as any).units = unit
+
+  units(unit: Units) {
+    this.q.units = unit
     return this
   }
 }

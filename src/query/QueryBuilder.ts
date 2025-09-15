@@ -6,7 +6,34 @@ import {
   SortOrder,
   QueryStatisticDefinitionInput,
   StatisticType,
-  SpatialRelationship
+  SpatialRelationship,
+  OutField,
+  OrderByField,
+  GroupByField,
+  ObjectIds,
+  ParameterValues,
+  QuantizationParametersType,
+  RangeValues,
+  DatumTransformation,
+  CacheHint,
+  Distance,
+  GdbVersion,
+  GeometryPrecision,
+  HavingExpression,
+  HistoricMoment,
+  MaxAllowableOffset,
+  MaxRecordCountFactor,
+  MultipatchOption,
+  PixelSizeType,
+  RelationParameter,
+  ReturnCentroid,
+  ReturnExceededLimitFeatures,
+  ReturnM,
+  ReturnQueryGeometry,
+  ReturnZ,
+  SqlFormat,
+  TextSearch,
+  Units
 } from '../types'
 import { WhereBuilder } from './WhereBuilder'
 import { StatsBuilder } from './StatsBuilder'
@@ -30,13 +57,17 @@ export class QueryBuilder {
 
   static fromSource(source: FeatureLayer | string) {
     if (typeof source === 'string') {
-      const lyr = new FeatureLayer({ url: source } as any)
+      const lyr = new FeatureLayer({ url: source })
       return QueryBuilder.from(lyr)
     }
     return QueryBuilder.from(source)
   }
 
-  where(column: string | ((qb: QueryBuilder) => void), operator?: ComparisonOperator, value?: any) {
+  where(
+    column: string | ((qb: QueryBuilder) => void),
+    operator?: ComparisonOperator,
+    value?: string | number | Date | boolean | null | undefined
+  ) {
     if (typeof column === 'function') {
       const sub = new QueryBuilder()
       sub.layer = this.layer
@@ -55,7 +86,7 @@ export class QueryBuilder {
   orWhere(
     column: string | ((qb: QueryBuilder) => void),
     operator?: ComparisonOperator,
-    value?: any
+    value?: string | number | Date | boolean | null | undefined
   ) {
     const prev = this._currentOp
     this._currentOp = 'OR'
@@ -84,18 +115,18 @@ export class QueryBuilder {
     this._currentOp === 'OR' ? this._where.or().pushRaw(clause) : this._where.and().pushRaw(clause)
   }
 
-  select(fields: string[] | string) {
+  select(fields: OutField[] | OutField) {
     if (typeof fields === 'string') fields = [fields]
-    this.query.outFields = fields
+    this.query.outFields = fields as string[]
     return this
   }
 
-  orderBy(field: string, order: SortOrder = 'ASC') {
+  orderBy(field: OrderByField, order: SortOrder = 'ASC') {
     this.query.orderByFields = [`${field} ${order}`]
     return this
   }
 
-  thenOrderBy(field: string, order: SortOrder = 'ASC') {
+  thenOrderBy(field: OrderByField, order: SortOrder = 'ASC') {
     if (!this.query.orderByFields) this.query.orderByFields = []
     this.query.orderByFields.push(`${field} ${order}`)
     return this
@@ -122,23 +153,23 @@ export class QueryBuilder {
     return this
   }
 
-  groupBy(fields: string | string[]) {
+  groupBy(fields: GroupByField | GroupByField[]) {
     if (typeof fields === 'string') fields = [fields]
-    this.query.groupByFieldsForStatistics = fields
+    this.query.groupByFieldsForStatistics = fields as string[]
     return this
   }
 
   stats(statistics: QueryStatisticDefinitionInput | QueryStatisticDefinitionInput[]) {
     const builder = new StatsBuilder().merge(statistics)
-    this.query.outStatistics = builder.build() as any
+    this.query.outStatistics = builder.build()
     return this
   }
 
   addStat(field: string, type: StatisticType, alias?: string) {
-    const existing = (this.query.outStatistics || []) as any
-    const builder = new StatsBuilder().merge(existing as any)
+    const existing = (this.query.outStatistics || []) as QueryStatisticDefinitionInput[]
+    const builder = new StatsBuilder().merge(existing)
     builder.addSimple(field, type, alias)
-    this.query.outStatistics = builder.build() as any
+    this.query.outStatistics = builder.build()
     return this
   }
 
@@ -209,12 +240,12 @@ export class QueryBuilder {
   }
 
   geometry(geometry: __esri.Geometry) {
-    this.query.geometry = geometry as any
+    this.query.geometry = geometry
     return this
   }
 
   spatialRelationship(relationship: SpatialRelationship) {
-    this.query.spatialRelationship = relationship as any
+    this.query.spatialRelationship = relationship
     return this
   }
 
@@ -223,47 +254,47 @@ export class QueryBuilder {
     return this
   }
 
-  cacheHint(flag: boolean) {
+  cacheHint(flag: CacheHint) {
     new QueryProps(this.query).cacheHint(flag)
     return this
   }
-  datumTransformation(t: number | any) {
+  datumTransformation(t: DatumTransformation) {
     new QueryProps(this.query).datumTransformation(t)
     return this
   }
-  distance(value: number) {
+  distance(value: Distance) {
     new QueryProps(this.query).distance(value)
     return this
   }
-  gdbVersion(version: string) {
+  gdbVersion(version: GdbVersion) {
     new QueryProps(this.query).gdbVersion(version)
     return this
   }
-  geometryPrecision(precision: number) {
+  geometryPrecision(precision: GeometryPrecision) {
     new QueryProps(this.query).geometryPrecision(precision)
     return this
   }
-  having(expr: string) {
+  having(expr: HavingExpression) {
     new QueryProps(this.query).having(expr)
     return this
   }
-  historicMoment(date: Date) {
+  historicMoment(date: HistoricMoment) {
     new QueryProps(this.query).historicMoment(date)
     return this
   }
-  maxAllowableOffset(offset: number) {
+  maxAllowableOffset(offset: MaxAllowableOffset) {
     new QueryProps(this.query).maxAllowableOffset(offset)
     return this
   }
-  maxRecordCountFactor(factor: number) {
+  maxRecordCountFactor(factor: MaxRecordCountFactor) {
     new QueryProps(this.query).maxRecordCountFactor(factor)
     return this
   }
-  multipatchOption(option: string) {
+  multipatchOption(option: MultipatchOption) {
     new QueryProps(this.query).multipatchOption(option)
     return this
   }
-  objectIds(ids: Array<number | string>) {
+  objectIds(ids: ObjectIds) {
     new QueryProps(this.query).objectIds(ids)
     return this
   }
@@ -271,51 +302,51 @@ export class QueryBuilder {
     new QueryProps(this.query).outSpatialReference(sr)
     return this
   }
-  parameterValues(values: Record<string, any>) {
+  parameterValues(values: ParameterValues) {
     new QueryProps(this.query).parameterValues(values)
     return this
   }
-  pixelSize(p: __esri.Point) {
+  pixelSize(p: PixelSizeType) {
     new QueryProps(this.query).pixelSize(p)
     return this
   }
-  quantizationParameters(q: any) {
+  quantizationParameters(q: QuantizationParametersType) {
     new QueryProps(this.query).quantizationParameters(q)
     return this
   }
-  rangeValues(values: any[]) {
+  rangeValues(values: RangeValues) {
     new QueryProps(this.query).rangeValues(values)
     return this
   }
-  relationParameter(param: string) {
+  relationParameter(param: RelationParameter) {
     new QueryProps(this.query).relationParameter(param)
     return this
   }
-  returnCentroid(flag: boolean) {
+  returnCentroid(flag: ReturnCentroid) {
     new QueryProps(this.query).returnCentroid(flag)
     return this
   }
-  returnExceededLimitFeatures(flag: boolean) {
+  returnExceededLimitFeatures(flag: ReturnExceededLimitFeatures) {
     new QueryProps(this.query).returnExceededLimitFeatures(flag)
     return this
   }
-  returnM(flag: boolean) {
+  returnM(flag: ReturnM) {
     new QueryProps(this.query).returnM(flag)
     return this
   }
-  returnQueryGeometry(flag: boolean) {
+  returnQueryGeometry(flag: ReturnQueryGeometry) {
     new QueryProps(this.query).returnQueryGeometry(flag)
     return this
   }
-  returnZ(flag: boolean) {
+  returnZ(flag: ReturnZ) {
     new QueryProps(this.query).returnZ(flag)
     return this
   }
-  sqlFormat(fmt: 'standard' | 'native') {
+  sqlFormat(fmt: SqlFormat) {
     new QueryProps(this.query).sqlFormat(fmt)
     return this
   }
-  textLike(text: string) {
+  textLike(text: TextSearch) {
     new QueryProps(this.query).textLike(text)
     return this
   }
@@ -323,7 +354,7 @@ export class QueryBuilder {
     new QueryProps(this.query).timeExtent(extent)
     return this
   }
-  units(unit: string) {
+  units(unit: Units) {
     new QueryProps(this.query).units(unit)
     return this
   }
@@ -486,7 +517,7 @@ export class QueryBuilder {
 
   async first() {
     const originalNum = this.query.num
-    this.query.num = 1 as any
+    this.query.num = 1
     try {
       const result = await this.exec()
       return result.features && result.features.length > 0 ? result.features[0] : null
@@ -499,13 +530,13 @@ export class QueryBuilder {
     const originalReturnGeometry = this.query.returnGeometry
     const originalOutFields = this.query.outFields
     this.query.returnGeometry = false
-    this.query.outFields = ['OBJECTID'] as any
+    this.query.outFields = ['OBJECTID']
     try {
       const result = await this.exec()
       return result.features ? result.features.length : 0
     } finally {
       this.query.returnGeometry = originalReturnGeometry
-      this.query.outFields = originalOutFields as any
+      this.query.outFields = originalOutFields
     }
   }
 
